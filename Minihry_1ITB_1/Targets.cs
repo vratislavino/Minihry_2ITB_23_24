@@ -14,15 +14,23 @@ namespace Minihry_1ITB_1
         Random random = new Random();
 
         Target currentTarget;
+        float speed = 0.1f;
+        float levelSpeedMultiplier = 1.2f;
 
         public override void StartMinigame() {
+            this.DoubleBuffered = true;
             updateTimer.Interval = 100;
             this.MouseDown += OnMouseDown;
+            this.Paint += OnPaint;
             updateTimer.Tick += OnTick;
             GenerateTarget();
             updateTimer.Start();
+        }
 
-            // Chybí mi tu paint :)
+        private void OnPaint(object sender, PaintEventArgs e) {
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            currentTarget.Draw(e.Graphics);
         }
 
         private void GenerateTarget() {
@@ -30,12 +38,30 @@ namespace Minihry_1ITB_1
         }
 
         private void OnTick(object sender, EventArgs e) {
-            currentTarget.size -= 1;
+            currentTarget.size -= speed;
+            if(currentTarget.size <= 0) {
+                updateTimer.Stop();
+                RaiseMinigameEnded();
+            }
+            
             Refresh();
         }
 
         private void OnMouseDown(object sender, MouseEventArgs e) {
-            // klikl na terč?
+            if(currentTarget.IsMouseIn(e.Location)) {
+                score++;
+                if(score > 10) {
+                    updateTimer.Stop();
+                    RaiseMinigameEnded();
+                } else {
+                    speed *= levelSpeedMultiplier;
+                    GenerateTarget();
+                }
+
+            } else {
+                updateTimer.Stop();
+                RaiseMinigameEnded();
+            }
         }
 
         class Target {
@@ -51,6 +77,11 @@ namespace Minihry_1ITB_1
 
             public void Draw(Graphics g) {
                 g.FillEllipse(color, position.X - size / 2, position.Y - size / 2, size, size);
+            }
+
+            public bool IsMouseIn(Point mousePos) {
+                double dist = Math.Sqrt(Math.Pow(mousePos.X - position.X, 2) + Math.Pow(mousePos.Y - position.Y, 2));
+                return dist <= size / 2;
             }
         }
     }

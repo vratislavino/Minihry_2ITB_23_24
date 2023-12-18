@@ -46,10 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs" />
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Minigame.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -67,9 +63,12 @@
     <Compile Include="Targets.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="WtfForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WtfForm.Designer.cs">
+      <DependentUpon>WtfForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Minigame.resx">
       <DependentUpon>Minigame.cs</DependentUpon>
     </EmbeddedResource>
@@ -85,6 +84,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="WtfForm.resx">
+      <DependentUpon>WtfForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
