@@ -10,15 +10,10 @@ using System.Windows.Forms;
 
 namespace Minihry_1ITB_1
 {
-    class Strike {
-
-    }
-
+  
     public partial class Form1 : Form
     {
-        List<Strike> StrikeList = new List<Strike>() {
-            new Strike(),
-        };
+       
 
         bool playersTurn = true;
         Random generator = new Random();
