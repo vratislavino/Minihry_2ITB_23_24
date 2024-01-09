@@ -28,7 +28,7 @@ namespace Minihry_1ITB_1
             if (playersTurn)
             {
 
-                Minigame m = new Targets();
+                Minigame m = new Circle();
                 m.MinigameEnded += (score) => {
                     DealDamage(pc, score);
                     panel1.Controls.Remove(m);
@@ -36,6 +36,8 @@ namespace Minihry_1ITB_1
                     SwitchPlayer();
                 };
                 panel1.Controls.Add(m);
+                m.Size = panel1.Size;
+
                 m.StartMinigame();
 
             }

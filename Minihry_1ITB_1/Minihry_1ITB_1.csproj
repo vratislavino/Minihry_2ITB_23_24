@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Circle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Circle.Designer.cs">
+      <DependentUpon>Circle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Minigame.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -69,6 +75,9 @@
     <Compile Include="WtfForm.Designer.cs">
       <DependentUpon>WtfForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Circle.resx">
+      <DependentUpon>Circle.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Minigame.resx">
       <DependentUpon>Minigame.cs</DependentUpon>
     </EmbeddedResource>

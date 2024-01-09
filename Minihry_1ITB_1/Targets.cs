@@ -14,7 +14,7 @@ namespace Minihry_1ITB_1
         Random random = new Random();
 
         Target currentTarget;
-        float speed = 0.1f;
+        float speed = 1f;
         float levelSpeedMultiplier = 1.2f;
 
         public override void StartMinigame() {
