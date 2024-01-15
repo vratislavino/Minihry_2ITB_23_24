@@ -16,6 +16,11 @@ namespace Minihry_1ITB_1
         bool playersTurn = true;
         Random generator = new Random();
 
+        Type[] minigameTypes = new Type[] { 
+            typeof(Circle),
+            typeof(Targets)
+        };
+
         public WtfForm()
         {
             InitializeComponent();
@@ -28,7 +33,13 @@ namespace Minihry_1ITB_1
             if (playersTurn)
             {
 
-                Minigame m = new Circle();
+                Minigame m = GetRandomMinigame();
+                if(m == null)
+                {
+                    MessageBox.Show("Nepodařilo se zvolit minihru");
+                    return;
+                }
+
                 m.MinigameEnded += (score) => {
                     DealDamage(pc, score);
                     panel1.Controls.Remove(m);
@@ -46,6 +57,18 @@ namespace Minihry_1ITB_1
                 int dmg = generator.Next(0, 10);
                 DealDamage(player, dmg);
                 SwitchPlayer();
+            }
+        }
+
+        private Minigame GetRandomMinigame()
+        {
+            int rand = generator.Next(0, minigameTypes.Length);
+            Minigame m = Activator.CreateInstance(minigameTypes[rand]) as Minigame;
+            if(m != null) {
+                return m;
+            } else
+            {
+                return null;
             }
         }
 

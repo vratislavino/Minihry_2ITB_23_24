@@ -28,6 +28,8 @@ namespace Minihry_1ITB_1
         Point center;
         float currentAngle = 90;
         float speed = 2;
+        float speedMultiplier = 1.1f;
+        bool hasToHit = true;
 
         public Circle()
         {
@@ -38,9 +40,9 @@ namespace Minihry_1ITB_1
         public override void StartMinigame()
         {
             circleSize = Width / 3 * 2;
-            center = new Point(Width/2, Height/2);
+            center = new Point(Width / 2, Height / 2);
 
-            startDegree = generator.Next(0, 360);
+            ReplaceSuccess();
 
             timer = new Timer();
             timer.Interval = 17;
@@ -51,19 +53,51 @@ namespace Minihry_1ITB_1
             timer.Tick += OnTick;
         }
 
+        private void ReplaceSuccess()
+        {
+            startDegree = generator.Next(210, 330);
+        }
+
         private void OnTick(object sender, EventArgs e)
         {
             currentAngle += speed;
+            if(currentAngle >= 360)
+            {
+                if(hasToHit)
+                {
+                    RaiseMinigameEnded();
+                    timer.Stop();
+                } else
+                {
+                    hasToHit = true;
+                }
+                currentAngle %= 360;
+
+
+            }
             Refresh();
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Space)
+            if (e.KeyCode == Keys.Space)
             {
-                if(currentAngle > startDegree && currentAngle < startDegree + successSize)
+                if (currentAngle > startDegree && currentAngle < startDegree + successSize)
                 {
-                    MessageBox.Show("Hit!");
+                    ReplaceSuccess();
+                    score++;
+                    speed *= speedMultiplier;
+                    successSize -= 2;
+                    hasToHit = false;
+                    if (score == 10)
+                    {
+                        RaiseMinigameEnded();
+                        timer.Stop();
+                    }
+                } else
+                {
+                    RaiseMinigameEnded();
+                    timer.Stop();
                 }
             }
         }
@@ -74,7 +108,7 @@ namespace Minihry_1ITB_1
             // vykreslení kolečka
 
             e.Graphics.DrawEllipse(circlePen, Width / 6, Height / 6, circleSize, circleSize);
-            e.Graphics.DrawArc(successPen, Width / 6, Height / 6, circleSize, circleSize, startDegree, successSize);
+            e.Graphics.DrawArc(successPen, Width / 6, Height / 6, circleSize, circleSize, -startDegree, -successSize);
 
             int x, y;
             double angleInRad = currentAngle / 180 * Math.PI;
